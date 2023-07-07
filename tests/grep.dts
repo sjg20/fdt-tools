@@ -3,8 +3,8 @@
 / {
 	model = "MyBoardName";
 	compatible = "MyBoardName", "MyBoardFamilyName";
-	#address-cells = <2>;
-	#size-cells = <2>;
+	#address-cells = <1>;
+	#size-cells = <1>;
 	chosen {
 		bootargs = "root=/dev/sda2";
 		linux,platform = <0x600>;
@@ -13,11 +13,15 @@
 		compatible = "ixtapa", "mexico";
 		weather = "sunny";
 		status = "okay";
+		#address-cells = <1>;
+		#size-cells = <1>;
 		flight@1 {
 			airline = "alaska";
+			reg = <1 1>;
 		};
 		flight@2 {
 			airline = "lan";
+			reg = <2 1>;
 		};
 	};
 };
