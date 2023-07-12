@@ -717,8 +717,9 @@ int fdt_next_region(const void *fdt,
 			return -FDT_ERR_BADSTRUCTURE;
 
 		/* Output the } before the end tag to finish it off */
-//		if ((unsigned int)info->start == fdt_size_dt_struct(fdt) - 4)
-//			info->start -= 4;
+		if ((unsigned int)info->start == fdt_size_dt_struct(fdt) - 4 &&
+		    (flags & FDT_REG_SUPERNODES))
+			info->start -= 4;
 
 		if (fdt_add_region(info, base + info->start,
 				   info->ptrs.nextoffset - info->start))

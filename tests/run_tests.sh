@@ -438,24 +438,24 @@ END
     # different about dtb/bin output.
 
     # An empty node list should just give us the FDT_END tag
-    run_wrap_test check_bytes 4 $DTGREP -n // -O bin $dtb
+    run_wrap_test check_bytes 4 $DTGREP -n // -S -O bin $dtb
 
     # The mem_rsvmap is two entries of 16 bytes each
-    run_wrap_test check_bytes $((4 + 32)) $DTGREP -m -n // -O bin $dtb
+    run_wrap_test check_bytes $((4 + 32)) $DTGREP -m -n // -S -O bin $dtb
 
     # Check we can add the string table
     string_size=$($DTGREP -H $dtb | awk '/size_dt_strings:/ {print $3}')
-    run_wrap_test check_bytes $((4 + $string_size)) $DTGREP -t -n // -O bin \
+    run_wrap_test check_bytes $((4 + $string_size)) $DTGREP -t -n // -O bin -S \
 	$dtb
     run_wrap_test check_bytes $((4 + 32 + $string_size)) $DTGREP -tm \
-	-n // -O bin $dtb
+	-n // -S -O bin $dtb
 
     # Check that a pass-through works ok. fdtgrep aligns the mem_rsvmap table
     # to a 16-bytes boundary, but dtc uses 8 bytes so we expect the size to
     # increase by 8 bytes...
     run_dtc_test -O dtb -o $dtb $dts
     base=$(stat -c %s $dtb)
-    run_wrap_test check_bytes $(($base + 8)) $DTGREP -O dtb $dtb
+    run_wrap_test check_bytes $base $DTGREP -O dtb $dtb
 
     # ...but we should get the same output from fdtgrep in a second pass
     run_wrap_test check_bytes 0 $DTGREP -O dtb $dtb -o $tmp
