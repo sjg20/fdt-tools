@@ -300,8 +300,8 @@ fdtgrep_tests () {
     run_wrap_test check_lines 4 $DTGREP -S -n /chosen $dtb
 
     # Check that -c picks out nodes
-    run_wrap_test check_lines 5 $DTGREP -S -c ixtapa $dtb
-    run_wrap_test check_lines $(($node_lines - 5)) $DTGREP -S -C ixtapa $dtb
+    run_wrap_test check_lines 7 $DTGREP -S -c ixtapa $dtb
+    run_wrap_test check_lines $(($node_lines - 7)) $DTGREP -S -C ixtapa $dtb
 
     # -d marks selected lines with +
     run_wrap_test check_lines $node_lines $DTGREP -S -Ad -n /chosen $dtb
@@ -335,6 +335,7 @@ fdtgrep_tests () {
 	compatible
 	linux,platform
 	model
+	reg
 	#size-cells
 	status
 	weather
@@ -352,15 +353,15 @@ END
     run_wrap_test check_lines 0 $DTGREP -S -n holiday $dtb
     run_wrap_test check_lines 0 $DTGREP -S -n \"\" $dtb
     run_wrap_test check_lines 4 $DTGREP -S -n /chosen $dtb
-    run_wrap_test check_lines 5 $DTGREP -S -n /holiday $dtb
-    run_wrap_test check_lines 9 $DTGREP -S -n /chosen -n /holiday $dtb
+    run_wrap_test check_lines 7 $DTGREP -S -n /holiday $dtb
+    run_wrap_test check_lines 11 $DTGREP -S -n /chosen -n /holiday $dtb
 
     # Test -N which should list everything except matching nodes
     run_wrap_test check_lines $node_lines $DTGREP -S -N // $dtb
     run_wrap_test check_lines $node_lines $DTGREP -S -N chosen $dtb
     run_wrap_test check_lines $(($node_lines - 4)) $DTGREP -S -N /chosen $dtb
-    run_wrap_test check_lines $(($node_lines - 5)) $DTGREP -S -N /holiday $dtb
-    run_wrap_test check_lines $(($node_lines - 9)) $DTGREP -S -N /chosen \
+    run_wrap_test check_lines $(($node_lines - 7)) $DTGREP -S -N /holiday $dtb
+    run_wrap_test check_lines $(($node_lines - 11)) $DTGREP -S -N /chosen \
 	-N /holiday $dtb
 
     # Using -n and -N together is undefined, so we don't have tests for that
